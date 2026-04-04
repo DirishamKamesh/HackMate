@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teams - HackMate</title>
+    <link href="/src/css/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-background text-dark font-body antialiased">
+    <div id="navbar-container"></div>
+
+    <div class="flex-grow flex">
+      <div id="sidebar-container"></div>
+
+      <main class="flex-grow w-full overflow-y-auto h-[calc(100vh-4rem)]">
+        <div class="p-6 max-w-7xl mx-auto w-full">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between mb-8"
+          >
+            <div>
+              <h1 class="text-2xl font-bold font-heading text-dark">
+                Community Squads
+              </h1>
+              <p class="text-gray-600">
+                Browse and join active technical squads in your community.
+              </p>
+            </div>
+
+            <div class="mt-4 sm:mt-0 flex space-x-3">
+              <div class="relative w-full sm:w-64">
+                <i
+                  data-lucide="search"
+                  class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                ></i>
+                <input
+                  type="text"
+                  placeholder="Search teams..."
+                  class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary focus:border-primary transition-colors text-sm"
+                />
+              </div>
+              <button id="create-team-btn" class="btn-primary flex-shrink-0">
+                <i data-lucide="plus" class="w-4 h-4 mr-2"></i> Launch Squad
+              </button>
+            </div>
+          </div>
+
+          <!-- Create Team Modal -->
+          <div
+            id="team-modal"
+            class="fixed inset-0 z-[100] hidden bg-gray-900 bg-opacity-50 flex items-center justify-center p-4"
+          >
+            <div class="bg-white rounded-xl shadow-xl max-w-lg w-full p-6">
+              <h2 class="text-xl font-bold font-heading mb-4">
+                Create a New Team
+              </h2>
+              <form id="team-form" class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Team Name</label
+                  >
+                  <input
+                    type="text"
+                    id="team-name"
+                    required
+                    class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Required Skills (comma separated)</label
+                  >
+                  <input
+                    type="text"
+                    id="team-skills"
+                    placeholder="e.g. React, Python, UI/UX"
+                    required
+                    class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Max Capacity</label
+                  >
+                  <input
+                    type="number"
+                    id="team-capacity"
+                    value="4"
+                    min="2"
+                    max="10"
+                    required
+                    class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg"
+                  />
+                </div>
+                <div class="flex justify-end space-x-3 pt-4">
+                  <button
+                    type="button"
+                    id="close-team-modal"
+                    class="btn-outline"
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" id="team-submit" class="btn-primary">
+                    Create Team
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div
+            id="teams-grid"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            <div class="col-span-full py-12 text-center text-gray-500">
+              Loading active teams...
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+      import { initUI } from "/src/js/ui.js";
+      import { requireAuth } from "/src/js/auth.js";
+      import { setupTeams } from "/src/js/teams.js";
+      import { auth } from "/src/js/firebase.js";
+      import { onAuthStateChanged } from "firebase/auth";
+
+      initUI();
+      requireAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) setupTeams(user);
+      });
+    </script>
+  </body>
+</html>

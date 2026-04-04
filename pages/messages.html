@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="/logo.jpeg" />
+    <title>Neural Messaging Hub - HackMate</title>
+    <link href="/src/css/style.css" rel="stylesheet" />
+    <style>
+        .chat-container {
+            height: calc(100vh - 8rem);
+        }
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.5;
+            position: relative;
+            animation: messageIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes messageIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .message-me {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+        }
+        .message-partner {
+            background: #f1f5f9;
+            color: #1e293b;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        .inbox-item.active {
+            background: #f8fafc;
+            border-left: 4px solid #4f46e5;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-body antialiased overflow-hidden">
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
+
+    <div class="flex">
+        <!-- Sidebar Navigation -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Chat Hub -->
+        <main class="flex-grow p-8">
+            <div class="chat-container glass rounded-[40px] flex overflow-hidden border border-white/40 shadow-2xl">
+                
+                <!-- INBOX SIDEBAR -->
+                <div class="w-80 border-r border-slate-100 flex flex-col bg-white/50">
+                    <div class="p-6 border-b border-slate-100">
+                        <div class="flex items-center justify-between mb-2">
+                             <h2 class="text-xl font-black text-slate-900 tracking-tight">Neural Inbox</h2>
+                             <span id="unread-count" class="bg-indigo-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full">LIVE</span>
+                        </div>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Active Synchronizations</p>
+                    </div>
+
+                    <div id="inbox-list" class="flex-grow overflow-y-auto pr-1">
+                        <!-- Inbox items will be injected here -->
+                        <div class="p-12 text-center">
+                            <p class="text-xs text-slate-300 font-bold uppercase tracking-widest animate-pulse">Initializing Hub...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHAT WINDOW -->
+                <div id="chat-window" class="flex-grow flex flex-col bg-white/30 relative">
+                    <!-- Chat Header -->
+                    <div id="chat-header" class="p-6 border-b border-slate-100 flex items-center justify-between bg-white/40 backdrop-blur-sm hidden">
+                        <div class="flex items-center">
+                            <div id="partner-initial" class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center mr-4 text-white font-bold text-lg shadow-lg shadow-indigo-600/20">
+                                ?
+                            </div>
+                            <div>
+                                <h3 id="partner-name" class="font-black text-slate-900 leading-tight">Neural Participant</h3>
+                                <div class="flex items-center">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Active Sync</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button class="p-2.5 rounded-xl hover:bg-slate-100 border border-slate-100 transition-all">
+                                <i data-lucide="video" class="w-5 h-5 text-slate-400"></i>
+                            </button>
+                            <button class="p-2.5 rounded-xl hover:bg-slate-100 border border-slate-100 transition-all">
+                                <i data-lucide="info" class="w-5 h-5 text-slate-400"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Messages Stream -->
+                    <div id="messages-list" class="flex-grow p-8 overflow-y-auto flex flex-col gap-6 custom-scrollbar">
+                        <div class="flex h-full items-center justify-center text-center opacity-50">
+                             <div class="max-w-xs">
+                                 <i data-lucide="message-square" class="w-12 h-12 mx-auto mb-4 text-indigo-200"></i>
+                                 <h4 class="text-lg font-black text-slate-900 tracking-tight">Select a Neural Link</h4>
+                                 <p class="text-xs font-semibold text-slate-400 leading-relaxed">Choose a teammate from the inbox to initiate a secure encrypted synchronization.</p>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Input Area -->
+                    <div id="chat-footer" class="p-6 bg-white/60 backdrop-blur-md border-t border-slate-100 hidden">
+                        <form id="message-form" class="flex items-center gap-4">
+                            <div class="flex-grow relative">
+                                <input id="message-input" type="text" placeholder="Type a message..." class="w-full pl-6 pr-14 py-4 bg-slate-50 border-2 border-transparent focus:border-indigo-600/20 focus:bg-white rounded-[24px] outline-none font-bold text-sm transition-all" />
+                                <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500">
+                                    <i data-lucide="smile" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                            <button type="submit" class="w-14 h-14 bg-indigo-600 text-white rounded-[18px] flex items-center justify-center hover:bg-indigo-700 transition-all active:scale-95 shadow-xl shadow-indigo-600/30">
+                                <i data-lucide="send" class="w-6 h-6"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initUI } from "/src/js/ui.js";
+        import { auth } from "/src/js/firebase.js";
+        import { onAuthStateChanged } from "firebase/auth";
+        import { 
+            listenToConversations, 
+            listenToMessages, 
+            sendMessage, 
+            getOrCreateChat 
+        } from "/src/js/messages.js";
+        import { createIcons, icons } from "lucide";
+
+        // Initialize Global UI Components
+        initUI(false, "/pages/messages.html");
+
+        const inboxList = document.getElementById("inbox-list");
+        const messagesList = document.getElementById("messages-list");
+        const messageForm = document.getElementById("message-form");
+        const messageInput = document.getElementById("message-input");
+        const chatHeader = document.getElementById("chat-header");
+        const chatFooter = document.getElementById("chat-footer");
+        const partnerNameEl = document.getElementById("partner-name");
+        const partnerInitialEl = document.getElementById("partner-initial");
+
+        let activeChatId = null;
+        let unsubscribeMessages = null;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "/pages/auth.html";
+                return;
+            }
+
+            // 1. Initial Load of Conversations
+            listenToConversations((chats) => {
+                renderInbox(chats, user.uid);
+            });
+
+            // 2. Handle URL redirect from Card
+            const urlParams = new URLSearchParams(window.location.search);
+            const partnerId = urlParams.get("partner");
+            if (partnerId) {
+                const chatId = await getOrCreateChat(partnerId);
+                selectChat(chatId, partnerId);
+            }
+        });
+
+        function renderInbox(chats, myId) {
+            if (chats.length === 0) {
+                inboxList.innerHTML = `
+                    <div class="p-12 text-center">
+                        <p class="text-[10px] text-slate-300 font-black uppercase tracking-widest">No Active Syncs</p>
+                    </div>`;
+                return;
+            }
+
+            inboxList.innerHTML = chats.map(chat => {
+                const partnerId = chat.participants.find(id => id !== myId);
+                const partnerData = chat.participantDetails[partnerId] || { name: 'Unknown Entity' };
+                const isActive = activeChatId === chat.id;
+                const lastMsg = chat.lastMessage?.text || "New Link Established";
+                
+                return `
+                    <div class="inbox-item p-6 border-b border-slate-50 cursor-pointer hover:bg-slate-50/50 transition-all ${isActive ? 'active' : ''}" 
+                         onclick="window.selectChat('${chat.id}', '${partnerId}', '${partnerData.name}')">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center font-bold text-slate-400 shrink-0">
+                                ${partnerData.name.charAt(0)}
+                            </div>
+                            <div class="overflow-hidden">
+                                <p class="font-black text-slate-900 text-sm truncate">${partnerData.name}</p>
+                                <p class="text-[11px] text-slate-400 font-semibold truncate italic">“${lastMsg}”</p>
+                            </div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        window.selectChat = (chatId, partnerId, partnerName) => {
+            activeChatId = chatId;
+            
+            // UI Updates
+            chatHeader.classList.remove("hidden");
+            chatFooter.classList.remove("hidden");
+            partnerNameEl.textContent = partnerName || "Neural Participant";
+            partnerInitialEl.textContent = (partnerName || "N").charAt(0);
+            
+            // Unsubscribe from previous chat
+            if (unsubscribeMessages) unsubscribeMessages();
+
+            // Subscribe to current messages
+            messagesList.innerHTML = '<div class="h-full flex items-center justify-center animate-pulse text-[10px] font-black uppercase tracking-widest text-slate-300">Synchronizing...</div>';
+            
+            unsubscribeMessages = listenToMessages(chatId, (messages) => {
+                renderMessages(messages, auth.currentUser.uid);
+            });
+
+            // Update URL for persistence
+            const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?partner=' + partnerId;
+            window.history.pushState({path:newurl},'',newurl);
+
+            // Re-render inbox to show active state
+            // (The onSnapshot for conversations will handle this if we update state elsewhere)
+        };
+
+        function renderMessages(messages, myId) {
+            if (messages.length === 0) {
+                messagesList.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center opacity-50">
+                        <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 border-dashed">
+                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Communication Buffer Empty</p>
+                        </div>
+                    </div>`;
+                return;
+            }
+
+            messagesList.innerHTML = messages.map(msg => {
+                const isMe = msg.senderId === myId;
+                return `
+                    <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+                        <div class="message-bubble ${isMe ? 'message-me' : 'message-partner'}">
+                            ${msg.text}
+                        </div>
+                        <span class="text-[8px] font-bold text-slate-300 uppercase tracking-widest mt-2 px-1">
+                            ${msg.timestamp?.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) || 'Sending...'}
+                        </span>
+                    </div>`;
+            }).join('');
+            
+            // Auto-scroll to bottom
+            messagesList.scrollTo({ top: messagesList.scrollHeight, behavior: 'smooth' });
+        }
+
+        messageForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const text = messageInput.value.trim();
+            if (text && activeChatId) {
+                messageInput.value = "";
+                await sendMessage(activeChatId, text);
+            }
+        };
+
+        // Re-inject icons
+        createIcons({ icons });
+
+    </script>
+</body>
+</html>

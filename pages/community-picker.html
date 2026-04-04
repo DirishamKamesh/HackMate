@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Select Your Community - HackMate</title>
+    <link href="/src/css/style.css" rel="stylesheet" />
+    <style>
+        .community-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .community-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-900 font-body antialiased min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-4xl w-full">
+        <!-- Header -->
+        <div class="text-center mb-16 animate-fadeIn">
+            <div class="inline-flex items-center px-4 py-1.5 bg-indigo-50 border border-indigo-100/50 rounded-full text-indigo-600 text-[10px] font-black tracking-widest uppercase mb-4 shadow-sm">
+                Project Initialization
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+                Enter Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">Community</span>
+            </h1>
+            <p class="text-slate-400 mt-4 font-medium max-w-lg mx-auto">
+                HackMate structures everything around communities. Join your college, company, or private network to begin.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 items-stretch">
+            <!-- Join Community Card -->
+            <div class="community-card bg-white rounded-[40px] p-10 border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-col">
+                <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-8">
+                    <i data-lucide="key" class="w-7 h-7 text-blue-600"></i>
+                </div>
+                <h3 class="text-2xl font-black mb-2">Join Community</h3>
+                <p class="text-slate-400 text-sm font-medium mb-8">Enter a community ID or access code provided by your administrator.</p>
+                
+                <div class="space-y-4 mt-auto">
+                    <input type="text" id="join-code" placeholder="ENTER CODE (e.g. VIGNAN-2024)" 
+                        class="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-indigo-500 rounded-2xl text-xs font-bold tracking-widest uppercase outline-none transition-all">
+                    <button id="join-btn" class="w-full py-4 bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/20">
+                        Access Community
+                    </button>
+                    <p id="join-error" class="text-red-500 text-[10px] font-bold text-center hidden mt-2"></p>
+                </div>
+            </div>
+
+            <!-- Create Community Card -->
+            <div class="community-card bg-white rounded-[40px] p-10 border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-col border-dashed border-2">
+                <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center mb-8">
+                    <i data-lucide="plus-circle" class="w-7 h-7 text-indigo-600"></i>
+                </div>
+                <h3 class="text-2xl font-black mb-2">Build New</h3>
+                <p class="text-slate-400 text-sm font-medium mb-8">Don't see your network? Initialize a new community for your team or college.</p>
+                
+                <div class="space-y-4 mt-auto">
+                    <input type="text" id="new-name" placeholder="COMMUNITY NAME" 
+                        class="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-indigo-500 rounded-2xl text-xs font-bold tracking-widest uppercase outline-none transition-all">
+                    <button id="create-btn" class="w-full py-4 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-indigo-700 transition-all active:scale-95 shadow-xl shadow-indigo-600/20">
+                        Launch Infrastructure
+                    </button>
+                    <p id="create-error" class="text-red-500 text-[10px] font-bold text-center hidden mt-2"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Info -->
+        <p class="text-center text-slate-400 text-[10px] font-black tracking-widest uppercase mt-16">
+            HackMate Neural Engine v2.0 · Scoped Environment
+        </p>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="/src/js/community-picker.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Seed Demo Data - HackMate</title>
+    <link href="/src/css/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-gray-50 flex items-center justify-center min-h-screen">
+    <div class="card p-8 max-w-md w-full text-center">
+      <h1 class="text-2xl font-bold mb-4">Demo Data Seeder</h1>
+      <p class="text-gray-600 mb-8 font-medium">Click below to populate your Firestore with 4 highly-compatible CSE dummy users for your hackathon demo.</p>
+      
+      <button id="seed-btn" class="btn-primary w-full py-3">Seed 4 Power Users</button>
+      <div id="status" class="mt-4 text-sm font-medium"></div>
+      
+      <a href="/pages/find-teammates.html" class="block mt-6 text-primary font-bold hover:underline">← Back to Teammate Finder</a>
+    </div>
+
+    <script type="module">
+      import { db } from "/src/js/firebase.js";
+      import { doc, setDoc } from "firebase/firestore";
+
+      const btn = document.getElementById("seed-btn");
+      const status = document.getElementById("status");
+
+      const demoUsers = [
+        {
+          id: "demo_user_1",
+          name: "Aarav Sharma",
+          college: "IIT Delhi",
+          branch: "Computer Science",
+          experience: "Advanced",
+          role: "Backend",
+          goal: "Winning",
+          skills: ["Node.js", "Python", "Firebase", "MongoDB", "Go"],
+          avatarUrl: ""
+        },
+        {
+          id: "demo_user_2",
+          name: "Ishita Kapoor",
+          college: "NSUT",
+          branch: "Information Technology",
+          experience: "Intermediate",
+          role: "Frontend",
+          goal: "Winning",
+          skills: ["React", "Tailwind CSS", "UI/UX", "Figma", "JavaScript"],
+          avatarUrl: ""
+        },
+        {
+          id: "demo_user_3",
+          name: "Rohan Varma",
+          college: "DTU",
+          branch: "Software Engineering",
+          experience: "Advanced",
+          role: "AI / ML",
+          goal: "Learning",
+          skills: ["Python", "PyTorch", "TensorFlow", "Node.js", "Scikit-Learn"],
+          avatarUrl: ""
+        },
+        {
+          id: "demo_user_4",
+          name: "Sanya Malhotra",
+          college: "BITS Pilani",
+          branch: "Computer Science",
+          experience: "Beginner",
+          role: "UI/UX",
+          goal: "Networking",
+          skills: ["Figma", "Adobe XD", "React", "CSS", "Creative Design"],
+          avatarUrl: ""
+        }
+      ];
+
+      btn.onclick = async () => {
+        btn.disabled = true;
+        status.textContent = "Seeding users...";
+        
+        try {
+          for (const user of demoUsers) {
+            const { id, ...data } = user;
+            await setDoc(doc(db, "users", id), data);
+          }
+          status.className = "mt-4 text-sm font-bold text-green-600";
+          status.textContent = "Successfully seeded 4 demo users!";
+        } catch (e) {
+          console.error(e);
+          status.className = "mt-4 text-sm font-bold text-red-600";
+          status.textContent = "Error seeding data. Check console.";
+        } finally {
+          btn.disabled = false;
+        }
+      };
+    </script>
+  </body>
+</html>

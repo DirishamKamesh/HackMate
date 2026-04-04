@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/jpeg" href="/logo.jpeg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HackMate - Find Teams & Build Projects</title>
+    <link href="/src/css/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-background text-dark font-body antialiased">
+    <div id="navbar-container"></div>
+
+    <div class="flex flex-col min-h-[calc(100vh-4rem)]">
+      <!-- Hero Section -->
+    <div class="flex flex-col min-h-[calc(100vh-4rem)]">
+      <!-- STATE OF THE ART HERO -->
+      <main class="flex-grow flex flex-col items-center justify-center px-6 lg:px-8 py-32 text-center bg-[#f8fafc] relative overflow-hidden">
+        
+        <!-- Background Neural Orbs -->
+        <div class="absolute top-1/4 -left-20 w-96 h-96 bg-indigo-100/30 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl"></div>
+
+        <div class="max-w-4xl mx-auto space-y-10 relative z-10">
+          <div class="inline-flex items-center px-4 py-1.5 bg-white border border-slate-100/50 rounded-full text-indigo-600 text-[10px] font-black tracking-widest uppercase mb-4 shadow-sm animate-fadeIn">
+            <i data-lucide="sparkles" class="w-3 h-3 mr-2"></i>
+            The Future of Student Collaboration
+          </div>
+
+          <h1 class="text-6xl md:text-8xl font-black text-slate-900 tracking-tight leading-[0.9] animate-slideUp">
+            Forge <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">Legendary</span> Teams
+          </h1>
+          
+          <p class="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium animate-slideUp" style="animation-delay: 0.1s">
+            HackMate uses a high-performance Neural Engine to cross-reference skills and goals, finding your 1% of ideal collaborators.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-5 justify-center pt-8 animate-slideUp" style="animation-delay: 0.2s">
+            <a href="/pages/auth.html?mode=signup" class="btn-primary !px-10 !py-4 text-base shadow-2xl shadow-indigo-600/30">
+              Initialize Account <i data-lucide="chevron-right" class="ml-2 w-5 h-5"></i>
+            </a>
+            <a href="/pages/auth.html?mode=login" class="btn-outline !px-10 !py-4 text-base bg-white/50 backdrop-blur-sm">
+              Dashboard Login
+            </a>
+          </div>
+        </div>
+      </main>
+
+      <!-- Features Grid -->
+      <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-heading font-bold text-dark">
+              Why choose HackMate?
+            </h2>
+          </div>
+          <div class="grid md:grid-cols-3 gap-8">
+            <div
+              class="p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-soft transition-shadow"
+            >
+              <div
+                class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-6"
+              >
+                <i data-lucide="users" class="w-6 h-6 text-primary"></i>
+              </div>
+              <h3 class="text-xl font-heading font-semibold text-dark mb-3">
+                Smart Matchmaking
+              </h3>
+              <p class="text-gray-600">
+                Find teammates based on complementary skills, experience level,
+                and project interests using our algorithm.
+              </p>
+            </div>
+            <div
+              class="p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-soft transition-shadow"
+            >
+              <div
+                class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-6"
+              >
+                <i data-lucide="trophy" class="w-6 h-6 text-primary"></i>
+              </div>
+              <h3 class="text-xl font-heading font-semibold text-dark mb-3">
+                Join Hackathons
+              </h3>
+              <p class="text-gray-600">
+                Discover trending hackathons, instantly form a squad, and start
+                building winning solutions.
+              </p>
+            </div>
+            <div
+              class="p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-soft transition-shadow"
+            >
+              <div
+                class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-6"
+              >
+                <i data-lucide="code" class="w-6 h-6 text-primary"></i>
+              </div>
+              <h3 class="text-xl font-heading font-semibold text-dark mb-3">
+                Daily Coding Challenges
+              </h3>
+              <p class="text-gray-600">
+                Keep your skills sharp with bite-sized daily challenges and
+                climb the global leaderboard.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="border-t border-gray-200 bg-white py-12 mt-auto">
+        <div class="max-w-7xl mx-auto text-center">
+          <p class="text-gray-500 font-medium">
+            © <span id="year"></span> HackMate. Designed for students.
+          </p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+      import { initUI } from "/src/js/ui.js";
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+      initUI(false, "/");
+    </script>
+  </body>
+</html>

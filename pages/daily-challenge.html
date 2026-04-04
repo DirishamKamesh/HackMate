@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Challenge - HackMate</title>
+    <link href="/src/css/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-background text-dark font-body antialiased">
+    <div id="navbar-container"></div>
+    <div class="flex-grow flex">
+      <div id="sidebar-container"></div>
+      <main
+        class="flex-grow w-full overflow-y-auto h-[calc(100vh-4rem)] p-6 max-w-5xl mx-auto"
+      >
+        <h1 class="text-2xl font-bold font-heading mb-6">
+          Daily Coding Challenge
+        </h1>
+        <div class="card p-8 bg-gray-900 border-gray-800 text-white">
+          <h2 class="text-xl font-bold text-green-400 mb-2">Two Sum</h2>
+          <p class="text-gray-300 mb-6">
+            Given an array of integers nums and an integer target, return
+            indices of the two numbers such that they add up to target.
+          </p>
+          <div
+            class="bg-gray-800 p-4 rounded-lg font-mono text-sm text-gray-300 mb-6"
+          >
+            function twoSum(nums, target) {<br />&nbsp;&nbsp;// Your code
+            here<br />}
+          </div>
+          <button class="btn-primary w-full sm:w-auto">
+            Submit Solution (+50 XP)
+          </button>
+        </div>
+      </main>
+    </div>
+    <script type="module">
+      import { initUI } from "/src/js/ui.js";
+      import { requireAuth } from "/src/js/auth.js";
+      initUI();
+      requireAuth();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard - HackMate</title>
+    <link href="/src/css/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-background text-dark font-body antialiased">
+    <div id="navbar-container"></div>
+    <div class="flex-grow flex">
+      <div id="sidebar-container"></div>
+      <main
+        class="flex-grow w-full overflow-y-auto h-[calc(100vh-4rem)] p-6 max-w-4xl mx-auto"
+      >
+        <div class="flex items-center space-x-4 mb-8">
+          <div class="p-3 bg-yellow-100 text-yellow-600 rounded-xl">
+            <i data-lucide="trophy" class="w-8 h-8"></i>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold font-heading">Global Leaderboard</h1>
+            <p class="text-gray-600">Top hackers by XP.</p>
+          </div>
+        </div>
+        <div class="card overflow-hidden">
+          <table class="w-full text-left">
+            <thead class="bg-gray-50 text-gray-500 font-medium text-sm">
+              <tr>
+                <th class="py-3 px-6">Rank</th>
+                <th class="py-3 px-6">Hacker</th>
+                <th class="py-3 px-6 text-right">Points (XP)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr class="hover:bg-gray-50">
+                <td class="py-4 px-6 font-bold text-yellow-500">1</td>
+                <td class="py-4 px-6 font-medium">Alex Developer</td>
+                <td class="py-4 px-6 text-right font-medium">14,200</td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="py-4 px-6 font-bold text-gray-400">2</td>
+                <td class="py-4 px-6 font-medium">Sam Coder</td>
+                <td class="py-4 px-6 text-right font-medium">13,050</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+    <script type="module">
+      import { initUI } from "/src/js/ui.js";
+      import { requireAuth } from "/src/js/auth.js";
+      initUI();
+      requireAuth();
+    </script>
+  </body>
+</html>

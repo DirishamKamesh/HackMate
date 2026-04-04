@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - HackMate</title>
+    <link href="/src/css/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-background text-dark font-body antialiased">
+    <div id="navbar-container"></div>
+
+    <div class="flex-grow flex">
+      <div id="sidebar-container"></div>
+
+      <main class="flex-grow w-full overflow-y-auto h-[calc(100vh-4rem)]">
+        <div class="p-6 max-w-7xl mx-auto w-full">
+          <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <div class="inline-flex items-center px-3 py-1 bg-indigo-50 border border-indigo-100/50 rounded-full text-indigo-600 text-[10px] font-black tracking-widest uppercase mb-4 shadow-sm">
+                <i data-lucide="shield-check" class="w-3 h-3 mr-2"></i>
+                <span id="user-community">Accessing Community...</span>
+              </div>
+              <h1 class="text-3xl font-black font-heading text-dark tracking-tight">Project Overview</h1>
+              <p class="text-gray-500 font-medium">
+                Welcome back! Monitor your community impact and squad progress.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+          >
+            <div class="card p-6">
+              <div class="flex items-center">
+                <div class="p-3 rounded-xl bg-indigo-100 text-indigo-600 mr-4">
+                  <i data-lucide="users" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-gray-500">Teams Joined</p>
+                  <p class="text-2xl font-semibold text-dark">3</p>
+                </div>
+              </div>
+            </div>
+            <div class="card p-6">
+              <div class="flex items-center">
+                <div class="p-3 rounded-xl bg-blue-100 text-blue-600 mr-4">
+                  <i data-lucide="code" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-gray-500">
+                    Challenges Done
+                  </p>
+                  <p class="text-2xl font-semibold text-dark">14</p>
+                </div>
+              </div>
+            </div>
+            <div class="card p-6">
+              <div class="flex items-center">
+                <div class="p-3 rounded-xl bg-green-100 text-green-600 mr-4">
+                  <i data-lucide="folder-git-2" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-gray-500">Projects</p>
+                  <p class="text-2xl font-semibold text-dark">5</p>
+                </div>
+              </div>
+            </div>
+            <div class="card p-6">
+              <div class="flex items-center">
+                <div class="p-3 rounded-xl bg-yellow-100 text-yellow-600 mr-4">
+                  <i data-lucide="trophy" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-gray-500">Points / Rank</p>
+                  <p class="text-2xl font-semibold text-dark">1,240</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="col-span-2">
+              <div class="card p-6 h-full">
+                <h2 class="text-lg font-bold font-heading mb-4">
+                  Recent Activity
+                </h2>
+                <div class="space-y-6">
+                  <div
+                    class="flex relative pb-6 border-b border-gray-100 last:border-0 last:pb-0"
+                  >
+                    <div
+                      class="mt-1 w-2.5 h-2.5 bg-primary rounded-full ring-4 ring-indigo-50 flex-shrink-0 z-10"
+                    ></div>
+                    <div class="ml-4">
+                      <p class="text-sm font-medium text-dark">
+                        Joined team "Hackathon Ninjas"
+                      </p>
+                      <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div
+                class="card p-6 h-full flex flex-col items-center justify-center text-center"
+              >
+                <div
+                  class="w-24 h-24 rounded-full bg-gray-100 mb-4 flex items-center justify-center overflow-hidden"
+                >
+                  <span class="text-4xl text-gray-400">👤</span>
+                </div>
+                <h3 id="user-name" class="text-lg font-bold text-dark">
+                  Loading...
+                </h3>
+                <p id="user-role" class="text-sm text-gray-500 mb-4">
+                  Loading Data
+                </p>
+                <div class="w-full bg-gray-100 rounded-full h-2.5 mb-2 mt-4">
+                  <div
+                    class="bg-primary h-2.5 rounded-full"
+                    style="width: 65%"
+                  ></div>
+                </div>
+                <p class="text-xs text-gray-500 text-left w-full">
+                  350 XP to next level
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+      import { initUI } from "/src/js/ui.js";
+      import { requireAuth } from "/src/js/auth.js";
+      import { loadDashboard } from "/src/js/dashboard.js";
+
+      initUI();
+      requireAuth();
+      // Only execute once auth state confirmed
+      import { auth } from "/src/js/firebase.js";
+      import { onAuthStateChanged } from "firebase/auth";
+      onAuthStateChanged(auth, (user) => {
+        if (user) loadDashboard();
+      });
+    </script>
+  </body>
+</html>
